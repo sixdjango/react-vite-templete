@@ -3,6 +3,8 @@ import type { ConfigEnv } from 'vite'
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import Pages from 'vite-plugin-pages'
+import AutoImport from 'unplugin-auto-import/vite'
+import UnoCSS from 'unocss/vite'
 import { wrapperEnv } from './build/utils'
 import pkg from './package.json'
 import { createProxy } from './build/vite/proxy'
@@ -29,6 +31,19 @@ export default ({ command, mode }: ConfigEnv) => {
       port: VITE_PORT,
       proxy: createProxy(VITE_PROXY),
     },
-    plugins: [react(), Pages()],
+    plugins: [react(), Pages(),
+      UnoCSS(),
+      AutoImport(
+        {
+          dirs: ['src/global'],
+          imports: [
+            {
+              'lodash-es': ['debounce', 'omit'],
+            },
+          ],
+          dts: './src/auto-imports.d.ts',
+        },
+      ),
+    ],
   })
 }

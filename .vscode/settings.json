@@ -7,5 +7,9 @@
     "*.css": "postcss"
   },
   "editor.formatOnSave": false,
-  "html.format.wrapLineLength": 120
+  "html.format.wrapLineLength": 120,
+  "cSpell.words": [
+    "clsxm",
+    "consola"
+  ]
 }

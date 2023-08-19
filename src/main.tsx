@@ -1,19 +1,13 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import {
   BrowserRouter as Router,
-  useRoutes,
 } from 'react-router-dom'
 
 import ReactDOM from 'react-dom/client'
-import routes from '~react-pages'
+import 'virtual:uno.css'
+import '@unocss/reset/tailwind-compat.css'
 
-function App() {
-  return (
-    <Suspense fallback={<p>Loading...</p>}>
-      {useRoutes(routes)}
-    </Suspense>
-  )
-}
+import App from './App'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
