@@ -31,11 +31,15 @@ export default ({ command, mode }: ConfigEnv) => {
       port: VITE_PORT,
       proxy: createProxy(VITE_PROXY),
     },
-    plugins: [react(), Pages(),
+    plugins: [
+      react(),
+      Pages({
+        exclude: ['**/components/**/*.(tsx|jsx|ts|js)', '**/logic/**/*.(tsx|jsx|ts|js)'],
+      }),
       UnoCSS(),
       AutoImport(
         {
-          dirs: ['src/global'],
+          dirs: ['src/global', 'src/store'],
           imports: [
             {
               'lodash-es': ['debounce', 'omit'],

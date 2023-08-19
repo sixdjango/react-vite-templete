@@ -1,10 +1,9 @@
-import { useState } from 'react'
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
 import './styles/index.css'
 
 function IndexPage() {
-  const [count, setCount] = useState(0)
+  const [count, plus] = useAppStore(state => [state.count, state.plus])
 
   return (
     <>
@@ -18,14 +17,14 @@ function IndexPage() {
       </div>
       <h1>Vite + Reacddt</h1>
       <div className="card">
-        <button onClick={() => setCount(count => count + 1)}>
-          coundsdst is {count}
+        <button onClick={() => plus()}>
+          count is {count}
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
-      <p className="read-the-docs">
+      <p className="read-the-docs flex">
         Click on the Vite and React logos to learn more
       </p>
     </>
