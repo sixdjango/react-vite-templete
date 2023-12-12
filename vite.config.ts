@@ -34,7 +34,7 @@ export default ({ command, mode }: ConfigEnv) => {
     plugins: [
       react(),
       Pages({
-        exclude: ['**/components/**/*.(tsx|jsx|ts|js)', '**/logic/**/*.(tsx|jsx|ts|js)'],
+        exclude: ['**/components/**/*.(tsx|jsx|ts|js)', '**/logic/**/*.(tsx|jsx|ts|js)', '**/hooks/**/*.(tsx|jsx|ts|js)'],
       }),
       UnoCSS(),
       AutoImport(
