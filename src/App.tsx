@@ -1,9 +1,8 @@
 import { Suspense } from 'react'
 import { staticRoutes } from './router/route'
 import { Routes } from 'react-router-dom'
-import { globSetting } from './configs/setting'
-
-console.log(globSetting.publicPath)
+import './styles/index.scss'
+import '@yc-tech/react-component/dist/style.css'
 
 export default function App() {
   return (

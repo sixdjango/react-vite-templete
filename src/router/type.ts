@@ -23,3 +23,11 @@ export type GuardOptions = {
   to: RouteConfig
   [key: string]: any
 }
+
+export type Middleware = (
+  to: RouteConfig,
+  next: () => Promise<any>,
+  options?: {
+    token?: string
+  }
+) => Promise<any>

@@ -30,6 +30,13 @@ export default ({ command, mode }: ConfigEnv) => {
       port: VITE_PORT,
       proxy: createProxy(VITE_PROXY)
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler' // or 'modern'
+        }
+      }
+    },
     plugins: [
       react(),
       AutoImport({
@@ -41,6 +48,13 @@ export default ({ command, mode }: ConfigEnv) => {
         ],
         dts: './src/auto-imports.d.ts'
       })
-    ]
+    ],
+    esbuild: {
+      drop: mode === 'production' ? ['console', 'debugger'] : []
+    },
+    build: {
+      minify: 'esbuild',
+      sourcemap: false // 是否生成sourcemap
+    }
   })
 }

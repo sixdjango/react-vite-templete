@@ -1,30 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
 import { Deferred } from '@yc-tech/shared'
+import { useUpdateEffect } from 'ahooks'
+import { useEffect, useRef, useState } from 'react'
 import { useUserStore } from '~/store/userStore'
-import { RoutePathEnum } from '~/constants/RoutePathEnum'
 import { RouteConfig } from '../type'
+import { authMiddleware } from './guard'
 export type UseGuardsOptions = {
   to: RouteConfig
   [key: string]: any
-}
-
-type Middleware = (
-  to: RouteConfig,
-  next: () => Promise<any>,
-  options?: {
-    token?: string
-  }
-) => Promise<any>
-
-const authMiddleware: Middleware = async (to, next, options = {}) => {
-  const { token } = options
-  return next().then(() => {
-    if (!to.meta?.auth) {
-      if (!token) {
-        return Promise.reject({ type: 'error', redirect: RoutePathEnum.LOGIN })
-      }
-    }
-  })
 }
 
 export function useGuards({ to }: UseGuardsOptions, dependencies: any[] = []) {
@@ -32,12 +14,13 @@ export function useGuards({ to }: UseGuardsOptions, dependencies: any[] = []) {
   const [allow, setAllow] = useState(false)
   const [redirect, setRedirect] = useState<string | undefined>()
   const [token] = useUserStore((state) => [state.token])
+
   const deferred = useRef<Deferred>()
   const next = () => {
     return deferred.current!.promise
   }
 
-  useEffect(() => {
+  const init = () => {
     // Cancel the previous request
     if (deferred.current) {
       deferred.current.reject({ type: 'cancel' })
@@ -53,20 +36,33 @@ export function useGuards({ to }: UseGuardsOptions, dependencies: any[] = []) {
         consola.info('allow')
         setLoading(false)
         setAllow(true)
+        setRedirect(undefined)
         deferred.current = undefined
       })
       .catch((e: { type: 'cancel'; redirect: string }) => {
         if (e?.type === 'cancel') {
           return
         }
-        if (e.redirect) {
-          setRedirect(e.redirect)
-        }
+
         setLoading(false)
         setAllow(false)
+
+        if (e.redirect) {
+          setRedirect(e.redirect)
+          consola.info('redirect', e.redirect)
+          return
+        }
       })
     deferred.current!.resolve()
-  }, [token, dependencies])
+  }
+
+  useUpdateEffect(() => {
+    init()
+  }, [token, to.path, ...dependencies])
+
+  useEffect(() => {
+    init()
+  }, [])
 
   return { loading, allow, redirect }
 }

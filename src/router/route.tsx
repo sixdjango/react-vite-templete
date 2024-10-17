@@ -15,14 +15,17 @@ function RouteComponent({ ...props }: RouteConfig) {
     return <AtSpinner />
   }
 
-  if (!allow) {
-    return <div>Not allowed</div>
-  }
-
   if (redirect) {
     return <Navigate to={redirect} />
   }
 
+  if (props.redirect) {
+    return <Navigate to={props.redirect} replace />
+  }
+
+  if (!allow) {
+    return <div>Not allowed</div>
+  }
   return props.element
 }
 
@@ -35,9 +38,6 @@ export const staticRouteConfigList: RouteConfig[] = [
     path: globSetting.publicPath,
     element: <DefaultLayout />,
     routeKey: 'default-layout',
-    meta: {
-      auth: true
-    },
     children: [
       {
         path: globSetting.publicPath,
@@ -64,7 +64,7 @@ export const staticRouteConfigList: RouteConfig[] = [
 function GenerateRoutes(routes: RouteConfig[]): JSX.Element[] {
   return routes.map((route) => {
     return (
-      <Route key={route.routeKey} element={<RouteComponent {...route} />} path={route.path}>
+      <Route key={route.path} element={<RouteComponent {...route} />} path={route.path}>
         {!!route.children && GenerateRoutes(route.children)}
       </Route>
     )
