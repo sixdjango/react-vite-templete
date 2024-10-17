@@ -11,4 +11,5 @@ declare global {
   const http: typeof import('./global/index')['http']
   const omit: typeof import('lodash-es')['omit']
   const useAppStore: typeof import('./store/appStore')['useAppStore']
+  const useUserStore: typeof import('./store/userStore')['useUserStore']
 }

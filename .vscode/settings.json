@@ -1,15 +1,18 @@
 {
   "prettier.enable": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "files.associations": {
     "*.css": "postcss"
   },
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["[a-zA-Z]*ClassName=\"([^']+)\""]
+  ],
   "editor.formatOnSave": true,
-  "html.format.wrapLineLength": 160,
-  "cSpell.words": [
-    "clsxm",
-    "consola"
-  ]
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "html.format.wrapLineLength": 140,
+  "cSpell.words": ["clsxm", "consola", "pinvo"]
 }

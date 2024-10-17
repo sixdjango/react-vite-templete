@@ -2,9 +2,7 @@ import path from 'node:path'
 import type { ConfigEnv } from 'vite'
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
-import Pages from 'vite-plugin-pages'
 import AutoImport from 'unplugin-auto-import/vite'
-import UnoCSS from 'unocss/vite'
 import { wrapperEnv } from './build/utils'
 import pkg from './package.json'
 import { createProxy } from './build/vite/proxy'
@@ -20,34 +18,29 @@ export default ({ command, mode }: ConfigEnv) => {
   return defineConfig({
     base: VITE_PUBLIC_PATH,
     resolve: {
-      alias: [{
-        find: /^~\//,
-        replacement: `${path.resolve(__dirname, 'src')}/`,
-      },
-      ],
+      alias: [
+        {
+          find: /^~\//,
+          replacement: `${path.resolve(__dirname, 'src')}/`
+        }
+      ]
     },
     server: {
       host: true,
       port: VITE_PORT,
-      proxy: createProxy(VITE_PROXY),
+      proxy: createProxy(VITE_PROXY)
     },
     plugins: [
       react(),
-      Pages({
-        exclude: ['**/components/**/*.(tsx|jsx|ts|js)', '**/logic/**/*.(tsx|jsx|ts|js)', '**/hooks/**/*.(tsx|jsx|ts|js)'],
-      }),
-      UnoCSS(),
-      AutoImport(
-        {
-          dirs: ['src/global', 'src/store'],
-          imports: [
-            {
-              'lodash-es': ['debounce', 'omit'],
-            },
-          ],
-          dts: './src/auto-imports.d.ts',
-        },
-      ),
-    ],
+      AutoImport({
+        dirs: ['src/global', 'src/store'],
+        imports: [
+          {
+            'lodash-es': ['debounce', 'omit']
+          }
+        ],
+        dts: './src/auto-imports.d.ts'
+      })
+    ]
   })
 }
