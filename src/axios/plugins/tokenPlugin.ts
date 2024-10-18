@@ -1,6 +1,6 @@
-import type { AjaxPlugin } from 'nice-axios'
+import type { NiceAxiosPlugin } from 'nice-axios'
 
-export const tokenPlugin: AjaxPlugin = async (next, config) => {
+export const tokenPlugin: NiceAxiosPlugin = async (next, config) => {
   const token = 'token'
   // jwt token
   config.headers!.Authorization = token

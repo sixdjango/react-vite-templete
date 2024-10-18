@@ -13,7 +13,7 @@ export default ({ command, mode }: ConfigEnv) => {
   env.VITE_GLOB_APP_VERSION = `${pkg.version}`
   const viteEnv = wrapperEnv(env)
   const isBuild = command === 'build'
-  const { VITE_PORT, VITE_PUBLIC_PATH, VITE_DROP_CONSOLE, VITE_PROXY, VITE_GLOB_USE_PWA } = viteEnv
+  const { VITE_PORT, VITE_PUBLIC_PATH, VITE_DROP_CONSOLE, VITE_PROXY } = viteEnv
 
   return defineConfig({
     base: VITE_PUBLIC_PATH,
@@ -50,11 +50,11 @@ export default ({ command, mode }: ConfigEnv) => {
       })
     ],
     esbuild: {
-      drop: mode === 'production' ? ['console', 'debugger'] : []
+      drop: mode === 'production' ? (VITE_DROP_CONSOLE ? ['console', 'debugger'] : []) : []
     },
     build: {
       minify: 'esbuild',
-      sourcemap: false // 是否生成sourcemap
+      sourcemap: !isBuild // 是否生成sourcemap
     }
   })
 }
