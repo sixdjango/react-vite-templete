@@ -46,9 +46,16 @@ const useUserStore = create<UserStore>()(
       name: CacheEnum.USER_STORE,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
-        token: state.token,
         userInfo: state.userInfo
-      })
+      }),
+      merge(persistedState, currentState) {
+        const token = Cookies.get(CacheEnum.COOKIE_TOKEN)
+        return {
+          ...(persistedState as UserStore),
+          ...currentState,
+          token
+        }
+      }
     }
   )
 )
