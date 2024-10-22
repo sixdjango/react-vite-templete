@@ -1,3 +1,5 @@
+import { UserInfo } from '~/store/userStore'
+
 export interface RouteMeta {
   title?: string
   icon?: string
@@ -29,5 +31,8 @@ export type Middleware = (
   next: () => Promise<any>,
   options?: {
     token?: string
+    initialed?: boolean
+    setInitialed?: (initialed: boolean) => void
+    setUserInfo?: (userInfo: UserInfo) => void
   }
 ) => Promise<any>

@@ -1,3 +1,4 @@
 export enum CacheEnum {
-  USER_STORE = 'user-store'
+  USER_STORE = 'user-store',
+  COOKIE_TOKEN = 'token'
 }
